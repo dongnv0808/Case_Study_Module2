@@ -3,6 +3,7 @@ import * as rl from 'readline-sync'
 import { User } from "../module/user";
 import { Role } from "../module/e-user";
 import { AdminMenu } from "./admin-menu/admin-menu";
+import { UserMenu } from "./user-menu/user-menu";
 enum LoginChoice{
     LOGIN = 1,
     REGISTER = 2
@@ -10,6 +11,7 @@ enum LoginChoice{
 export class LoginMenu{
     private userManagement = new UserManagement();
     private adminMenu = new AdminMenu();
+    private userMenu = new UserMenu();
     inputUser(): User{
         let usernameRegex: RegExp = /^[a-zA-Z0-9]([._](?![._])|[a-zA-Z0-9]){6,18}[a-zA-Z0-9]$/
         let username = this.inputUserName(usernameRegex);
@@ -67,20 +69,18 @@ export class LoginMenu{
     }
     inputEmail(emailRegex: RegExp): string{
         let email = '';
-        let isValidEmail = true;
+        let isValidEmail = false;
         do{
-            email = rl.question("Nhap Email:");
-            let currentEmail = this.userManagement.findByEmail(email);
-            if(!emailRegex.test(email)){
-                console.log("Email khong hop le!");
+            email = rl.question('Nhap email:');
+            if(this.userManagement.findByEmail(email)){
+                console.log('Email da ton tai');
                 isValidEmail = false;
-            }else {
-                isValidEmail = true;
-                if(currentEmail){
-                    console.log("Email nay da duoc dang ky");
-                    isValidEmail = false;
-                }else {
+            }else{
+                if(emailRegex.test(email)){
                     isValidEmail = true;
+                }else{
+                    console.log('Khong dung kieu du lieu!');
+                    isValidEmail = false;
                 }
             }
         }while(!isValidEmail)
@@ -134,7 +134,7 @@ export class LoginMenu{
             if(currentUser?.$role == Role.ADMIN){
                 this.adminMenu.run();
             }else{
-                console.log("Menu user");
+                this.userMenu.run();
             }
         }
     }

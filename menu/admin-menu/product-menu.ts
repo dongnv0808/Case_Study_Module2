@@ -216,10 +216,10 @@ export class ProductMenu{
                         needNextPass = true;
                     }
                 }
-                console.log('\n--Sap xep thoe gia tang dan--\n');
-                for(let product of arrSort){
-                    console.log(product);
-                }
+            }
+            console.log('\n--Sap xep thoe gia tang dan--\n');
+            for(let product of arrSort){
+                console.log(`Id: ${product.$id} | Ten: ${product.$nameProduct} | Mo ta:${product.$description} | Gia: ${product.$price}`);
             }
         }
     }
@@ -244,10 +244,13 @@ export class ProductMenu{
                         needNextPass = true;
                     }
                 }
-                console.log('\n--Sap xep theo gia giam dan--\n');
-                for(let product of arrSort){
-                    console.log(product);
+                if(needNextPass == false){
+                    break;
                 }
+            }
+            console.log('\n--Sap xep theo gia giam dan--\n');
+            for(let product of arrSort){
+                console.log(`Id: ${product.$id} | Ten: ${product.$nameProduct} | Mo ta:${product.$description} | Gia: ${product.$price}`);
             }
         }
     }

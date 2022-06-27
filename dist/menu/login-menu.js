@@ -29,6 +29,7 @@ const rl = __importStar(require("readline-sync"));
 const user_1 = require("../module/user");
 const e_user_1 = require("../module/e-user");
 const admin_menu_1 = require("./admin-menu/admin-menu");
+const user_menu_1 = require("./user-menu/user-menu");
 var LoginChoice;
 (function (LoginChoice) {
     LoginChoice[LoginChoice["LOGIN"] = 1] = "LOGIN";
@@ -38,6 +39,7 @@ class LoginMenu {
     constructor() {
         this.userManagement = new user_management_1.UserManagement();
         this.adminMenu = new admin_menu_1.AdminMenu();
+        this.userMenu = new user_menu_1.UserMenu();
     }
     inputUser() {
         let usernameRegex = /^[a-zA-Z0-9]([._](?![._])|[a-zA-Z0-9]){6,18}[a-zA-Z0-9]$/;
@@ -100,22 +102,20 @@ class LoginMenu {
     }
     inputEmail(emailRegex) {
         let email = '';
-        let isValidEmail = true;
+        let isValidEmail = false;
         do {
-            email = rl.question("Nhap Email:");
-            let currentEmail = this.userManagement.findByEmail(email);
-            if (!emailRegex.test(email)) {
-                console.log("Email khong hop le!");
+            email = rl.question('Nhap email:');
+            if (this.userManagement.findByEmail(email)) {
+                console.log('Email da ton tai');
                 isValidEmail = false;
             }
             else {
-                isValidEmail = true;
-                if (currentEmail) {
-                    console.log("Email nay da duoc dang ky");
-                    isValidEmail = false;
+                if (emailRegex.test(email)) {
+                    isValidEmail = true;
                 }
                 else {
-                    isValidEmail = true;
+                    console.log('Khong dung kieu du lieu!');
+                    isValidEmail = false;
                 }
             }
         } while (!isValidEmail);
@@ -171,7 +171,7 @@ class LoginMenu {
                 this.adminMenu.run();
             }
             else {
-                console.log("Menu user");
+                this.userMenu.run();
             }
         }
     }

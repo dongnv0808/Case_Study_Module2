@@ -95,9 +95,14 @@ export class CategoryMenu{
         }
     }
     removeCategory(){
+        let categories = this.categoryManagement.getAll();
+        for(let category of categories){
+            console.log(`Id: ${category.$id} | Ten: ${category.$nameCategory}`);
+        }
         console.log('--Xoa danh muc--');
         let idCategory = +rl.question("Nhap id danh muc muon xoa:");
         this.categoryManagement.removeById(idCategory);
+        console.log('\nXoa thanh cong!\n')
     }
     showProductByCategory(){
         let categories = this.categoryManagement.getAll();

@@ -39,6 +39,14 @@ class ProductManagement {
         }
         return null;
     }
+    findByNameProduct(name) {
+        for (let i = 0; i < ProductManagement.products.length; i++) {
+            if (ProductManagement.products[i].$nameProduct == name) {
+                return ProductManagement.products[i];
+            }
+        }
+        return null;
+    }
 }
 exports.ProductManagement = ProductManagement;
 ProductManagement.products = [];

@@ -41,4 +41,12 @@ export class ProductManagement implements ProductManagement{
         }
         return null
     }
+    findByNameProduct(name: string){
+        for(let i = 0; i < ProductManagement.products.length; i++){
+            if(ProductManagement.products[i].$nameProduct == name){
+                return ProductManagement.products[i];
+            }
+        }
+        return null
+    }
 }

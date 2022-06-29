@@ -28,16 +28,8 @@ const product_management_1 = require("../../management/product/product-managemen
 const rl = __importStar(require("readline-sync"));
 const category_management_1 = require("../../management/category/category-management");
 const product_1 = require("../../module/product");
-var ProductChoice;
-(function (ProductChoice) {
-    ProductChoice[ProductChoice["SHOWALLPRODUCT"] = 1] = "SHOWALLPRODUCT";
-    ProductChoice[ProductChoice["CREATEPRODUCT"] = 2] = "CREATEPRODUCT";
-    ProductChoice[ProductChoice["UPDATEPRODUCT"] = 3] = "UPDATEPRODUCT";
-    ProductChoice[ProductChoice["REMOVEPRODUCT"] = 4] = "REMOVEPRODUCT";
-    ProductChoice[ProductChoice["SEARCHPRODUCTBYNAME"] = 5] = "SEARCHPRODUCTBYNAME";
-    ProductChoice[ProductChoice["SORTBYPRICE"] = 6] = "SORTBYPRICE";
-    ProductChoice[ProductChoice["ADDPRODUCTTOCATEGORY"] = 7] = "ADDPRODUCTTOCATEGORY";
-})(ProductChoice || (ProductChoice = {}));
+const e_user_menu_1 = require("../../module/e-user-menu");
+const e_admin_menu_1 = require("../../module/e-admin-menu");
 class ProductMenu {
     constructor() {
         this.productMenagement = new product_management_1.ProductManagement();
@@ -57,35 +49,32 @@ class ProductMenu {
             console.log('0. Quay lai');
             choice = +rl.question("Nhap lua chon cua ban:");
             switch (choice) {
-                case ProductChoice.SHOWALLPRODUCT: {
+                case e_admin_menu_1.ProductChoice.SHOWALLPRODUCT: {
                     this.showAllProduct();
                     break;
                 }
-                case ProductChoice.CREATEPRODUCT: {
+                case e_admin_menu_1.ProductChoice.CREATEPRODUCT: {
                     this.createNewProduct();
                     break;
                 }
-                case ProductChoice.UPDATEPRODUCT: {
+                case e_admin_menu_1.ProductChoice.UPDATEPRODUCT: {
                     this.updateProduct();
                     break;
                 }
-                case ProductChoice.REMOVEPRODUCT: {
+                case e_admin_menu_1.ProductChoice.REMOVEPRODUCT: {
                     this.removeProduct();
                     break;
                 }
-                case ProductChoice.SEARCHPRODUCTBYNAME: {
+                case e_admin_menu_1.ProductChoice.SEARCHPRODUCTBYNAME: {
                     this.searchProductByName();
                     break;
                 }
-                case ProductChoice.SORTBYPRICE: {
+                case e_admin_menu_1.ProductChoice.SORTBYPRICE: {
                     this.sortByPrice();
                     break;
                 }
-                case ProductChoice.ADDPRODUCTTOCATEGORY: {
+                case e_admin_menu_1.ProductChoice.ADDPRODUCTTOCATEGORY: {
                     this.addProductToCategory();
-                    break;
-                }
-                case 0: {
                     break;
                 }
             }
@@ -96,7 +85,7 @@ class ProductMenu {
         console.log('--Danh sach san pham--');
         let products = this.productMenagement.getAll();
         for (let i = 0; i < products.length; i++) {
-            console.log(`Ma: ${products[i].$id}, Ten: ${products[i].$nameProduct}, Mo ta: ${products[i].$description}, Gia: ${products[i].$price}, Danh muc: ${(_a = products[i].$category) === null || _a === void 0 ? void 0 : _a.$nameCategory}\n`);
+            console.log(`Ma: ${products[i].$id}, Ten: ${products[i].$nameProduct}, Mo ta: ${products[i].$description}, Gia: ${products[i].$price}, Danh muc: ${(_a = products[i].$category) === null || _a === void 0 ? void 0 : _a.$nameCategory}, Da ban ${products[i].$productSold}\n`);
         }
     }
     createNewProduct() {
@@ -181,20 +170,17 @@ class ProductMenu {
         let choice = -1;
         do {
             console.log('--Sap xep san pham theo gia--');
-            console.log('1. Giam dan');
-            console.log('2. Tang dan');
+            console.log('1. Tang dan');
+            console.log('2. Giam dan');
             console.log('0. Quay lai');
             choice = +rl.question('Nhap lua chon cua ban:');
             switch (choice) {
-                case 1: {
-                    this.sortDown();
-                    break;
-                }
-                case 2: {
+                case e_user_menu_1.ChoiceSort.SORTUP: {
                     this.sortUp();
                     break;
                 }
-                case 0: {
+                case e_user_menu_1.ChoiceSort.SORTDOWN: {
+                    this.sortDown();
                     break;
                 }
             }

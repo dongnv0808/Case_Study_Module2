@@ -1,23 +1,13 @@
-import { ProductManagement } from "../../management/product/product-management";
 import * as rl from 'readline-sync';
+import { ProductManagement } from "../../management/product/product-management";
 import { Product } from "../../module/product";
 import { CategoryManagement } from "../../management/category/category-management";
-import { UserManagement } from "../../management/user/user-management";
 import { User } from "../../module/user";
-import { Cart } from "../../module/cart";
-enum ChoiceMenuUser{
-    SHOWALLPRODUCT = 1,
-    FILTERPRODUCTSBYPRICE = 2,
-    SEARCHPRODUCTSBYNAME = 3,
-    SORTPRODUCTSBYPRICE = 4,
-    CART = 5,
-    SHOWNUMBEROFPRODUCTSBYCATEGORY = 6,
-    SHOWHOSTSELLINGPRODUCT = 7
-}
+import { ChoiceCart, ChoiceMenuUser, ChoiceSort } from "../../module/e-user-menu";
+
 export class UserMenu{
     private productManagement = new ProductManagement();
     private categoryManagement = new CategoryManagement();
-    private products: Product[] = [];
     run(currentUser: User){
         let choice = -1;
         
@@ -172,12 +162,12 @@ export class UserMenu{
             console.log('0. Quay lai');
             choice = +rl.question('Nhap lua chon cua ban:')
             switch(choice){
-                case 1: {
+                case ChoiceSort.SORTUP: {
                     this.sortUp();
                     this.addToCart(currentUser)
                     break;
                 }
-                case 2: {
+                case ChoiceSort.SORTDOWN: {
                     this.sortDown();
                     this.addToCart(currentUser)
                     break;
@@ -275,57 +265,29 @@ export class UserMenu{
     }
     cart(currentUser: User){
         let choice = -1;
-        let cart = currentUser.getAll();
         do{
             console.log('\n--Gio hang--\n');
             console.log('\n1. Hien thi tat ca san pham trong gio hang.');
             console.log('2. Sua san pham trong gio hang.');
             console.log('3. Xoa san pham khoi gio hang.');
+            console.log('4. Thanh toan');
             console.log('0. Quay lai.');
             choice = +rl.question('Nhap lua chon cua ban:');
             switch(choice){
-                case 1: {
-                    let totalPrice = 0;
-                    for(let i = 0; i < cart.$products.length; i++){
-                        console.log(`Id: ${cart.$products[i].$id} | Ten: ${cart.$products[i].$nameProduct} | So luong: ${cart.$amount} | Gia: ${cart.$products[i].$price * cart.$amount}`);
-                        totalPrice += cart.$products[i].$price * cart.$amount;
-                    }
-                    console.log(`\nTong tien: ${totalPrice}\n`);
+                case ChoiceCart.SHOWALLPRODUCTINCART: {
+                    this.showAllProductInCart(currentUser);
                     break;
                 }
-                case 2: {
-                    console.log('\n--Sua so luong san pham trong gio hang\n');
-                    let idProduct = +rl.question('Nhap Id san pham muon sua:');
-                    let product = currentUser.findProductById(idProduct);
-                    if(product){
-                        cart.$amount = +rl.question('Nhap so luong muon sua:');
-                        currentUser.updateProduct(idProduct, cart.$amount);
-                        console.log('\nSua thanh cong!\n');
-                    }else{
-                        console.log('\nNhap sai ma san pham!\n');
-                    }
+                case ChoiceCart.UPDATEAMOUNT: {
+                    this.updateAmount(currentUser);
                     break;
                 }
-                case 3: {
-                    console.log('--Xoa san pham trong gio hang--');
-                    let idProduct = +rl.question('Nhap Id san pham muon xoa:');
-                    let isvalidId = true;
-                    for(let i = 0; i < cart.$products.length; i++){
-                        if(cart.$products[i].$id == idProduct){
-                            currentUser.removeProduct(idProduct);
-                            isvalidId = true;
-                            break;
-                        }
-                        else{
-                            isvalidId = false;
-                        }
-                    }
-                    if(isvalidId == true){
-                        console.log('\nXoa thanh cong\n');
-                    }else{
-                        console.log('\nXoa that bai\n');
-                    }
+                case ChoiceCart.REMOVEPRODUCTFROMCART: {
+                    this.removeProductFromCart(currentUser);
                     break;
+                }
+                case ChoiceCart.PAY: {
+                    this.pay(currentUser);
                 }
             }
         }while(choice !== 0)
@@ -352,6 +314,65 @@ export class UserMenu{
                     this.addToCart(currentUser);
                 }
             }
+        }
+    }
+    showAllProductInCart(currentUser: User){
+        let cart = currentUser.getAll();
+        let totalPrice = 0;
+        for(let i = 0; i < cart.$products.length; i++){
+            console.log(`Id: ${cart.$products[i].$id} | Ten: ${cart.$products[i].$nameProduct} | So luong: ${cart.$amount} | Gia: ${cart.$products[i].$price * cart.$amount}`);
+            totalPrice += cart.$products[i].$price * cart.$amount;
+        }
+        console.log(`\nTong tien: ${totalPrice}\n`);
+    }
+    removeProductFromCart(currentUser: User){
+        let cart = currentUser.getAll();
+        console.log('--Xoa san pham trong gio hang--');
+        let idProduct = +rl.question('Nhap Id san pham muon xoa:');
+        let isvalidId = true;
+        for(let i = 0; i < cart.$products.length; i++){
+            if(cart.$products[i].$id == idProduct){
+                currentUser.removeProduct(idProduct);
+                isvalidId = true;
+                break;
+            }
+            else{
+                isvalidId = false;
+            }
+        }
+        if(isvalidId == true){
+            console.log('\nXoa thanh cong\n');
+        }else{
+            console.log('\nXoa that bai\n');
+        }
+    }
+    updateAmount(currentUser: User){
+        let cart = currentUser.getAll();
+        console.log('\n--Sua so luong san pham trong gio hang\n');
+        let idProduct = +rl.question('Nhap Id san pham muon sua:');
+        let product = currentUser.findProductById(idProduct);
+        if(product){
+            cart.$amount = +rl.question('Nhap so luong muon sua:');
+            currentUser.updateProduct(idProduct, cart.$amount);
+            console.log('\nSua thanh cong!\n');
+        }else{
+            console.log('\nNhap sai ma san pham!\n');
+        }
+    }
+    pay(currentUser: User){
+        let cart = currentUser.getAll();
+        let nameUser = '';
+        let addressUser = '';
+        let phoneNumber ='';
+        do{
+            console.log('Khong duoc de trong ten, dia chi hoac so dien thoai')
+            nameUser = rl.question('Nhap ten:');
+            addressUser = rl.question('Nhap dia chi:');
+            phoneNumber = rl.question('Nhap so dien thoai:')
+        }while(nameUser == '' || addressUser == '' || phoneNumber =='');
+        console.log(`Xin chao ${nameUser}\nDon hang se duoc giao toi dia chi: ${addressUser}\nSo dien thoai: ${phoneNumber}`);
+        for(let i = 0; i < cart.$products.length; i++){
+            cart.$products[i].$productSold += cart.$amount;
         }
     }
 }

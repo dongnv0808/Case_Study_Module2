@@ -3,13 +3,8 @@ import * as rl from 'readline-sync'
 import { CategoryManagement } from '../../management/category/category-management';
 import { ICategoryManagement } from '../../management/category/i-category-management';
 import { Category } from '../../module/category';
-enum CategoryChoice{
-    SHOWALLCATEGORY = 1,
-    CREATECATEGORY = 2,
-    UPDATECATEGORY = 3,
-    REMOVECATEGORY = 4,
-    SHOWPRODUCTBYCATEGORY = 5
-}
+import { CategoryChoice } from '../../module/e-admin-menu';
+
 export class CategoryMenu{
     private categoryManagement: ICategoryManagement = new CategoryManagement();
     run(){

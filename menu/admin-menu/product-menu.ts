@@ -5,16 +5,9 @@ import * as rl from 'readline-sync';
 import { ICategoryManagement } from "../../management/category/i-category-management";
 import { CategoryManagement } from "../../management/category/category-management";
 import { Product } from "../../module/product";
+import { ChoiceSort } from "../../module/e-user-menu";
+import { ProductChoice } from "../../module/e-admin-menu";
 
-enum ProductChoice{
-    SHOWALLPRODUCT = 1,
-    CREATEPRODUCT = 2,
-    UPDATEPRODUCT = 3,
-    REMOVEPRODUCT = 4,
-    SEARCHPRODUCTBYNAME = 5,
-    SORTBYPRICE = 6,
-    ADDPRODUCTTOCATEGORY = 7
-}
 
 export class ProductMenu{
     private productMenagement: IProductManagement = new ProductManagement();
@@ -61,9 +54,6 @@ export class ProductMenu{
                     this.addProductToCategory();
                     break;
                 }
-                case 0: {
-                    break;
-                }
             }
         }while(choice !== 0)
     }
@@ -71,7 +61,7 @@ export class ProductMenu{
         console.log('--Danh sach san pham--');
         let products = this.productMenagement.getAll();
         for(let i = 0; i < products.length; i++){
-            console.log(`Ma: ${products[i].$id}, Ten: ${products[i].$nameProduct}, Mo ta: ${products[i].$description}, Gia: ${products[i].$price}, Danh muc: ${products[i].$category?.$nameCategory}\n`);
+            console.log(`Ma: ${products[i].$id}, Ten: ${products[i].$nameProduct}, Mo ta: ${products[i].$description}, Gia: ${products[i].$price}, Danh muc: ${products[i].$category?.$nameCategory}, Da ban ${products[i].$productSold}\n`);
         }
     }
     
@@ -154,20 +144,17 @@ export class ProductMenu{
         let choice = -1;
         do{
             console.log('--Sap xep san pham theo gia--');
-            console.log('1. Giam dan');
-            console.log('2. Tang dan');
+            console.log('1. Tang dan');
+            console.log('2. Giam dan');
             console.log('0. Quay lai');
             choice = +rl.question('Nhap lua chon cua ban:');
             switch(choice){
-                case 1: {
-                    this.sortDown();
-                    break;
-                }
-                case 2: {
+                case ChoiceSort.SORTUP: {
                     this.sortUp();
                     break;
                 }
-                case 0: {
+                case ChoiceSort.SORTDOWN: {
+                    this.sortDown();
                     break;
                 }
             }

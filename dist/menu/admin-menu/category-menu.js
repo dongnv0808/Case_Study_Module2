@@ -27,14 +27,7 @@ exports.CategoryMenu = void 0;
 const rl = __importStar(require("readline-sync"));
 const category_management_1 = require("../../management/category/category-management");
 const category_1 = require("../../module/category");
-var CategoryChoice;
-(function (CategoryChoice) {
-    CategoryChoice[CategoryChoice["SHOWALLCATEGORY"] = 1] = "SHOWALLCATEGORY";
-    CategoryChoice[CategoryChoice["CREATECATEGORY"] = 2] = "CREATECATEGORY";
-    CategoryChoice[CategoryChoice["UPDATECATEGORY"] = 3] = "UPDATECATEGORY";
-    CategoryChoice[CategoryChoice["REMOVECATEGORY"] = 4] = "REMOVECATEGORY";
-    CategoryChoice[CategoryChoice["SHOWPRODUCTBYCATEGORY"] = 5] = "SHOWPRODUCTBYCATEGORY";
-})(CategoryChoice || (CategoryChoice = {}));
+const e_admin_menu_1 = require("../../module/e-admin-menu");
 class CategoryMenu {
     constructor() {
         this.categoryManagement = new category_management_1.CategoryManagement();
@@ -51,23 +44,23 @@ class CategoryMenu {
             console.log('0. Quay lai');
             choice = +rl.question('Nhap lua chon:');
             switch (choice) {
-                case CategoryChoice.SHOWALLCATEGORY: {
+                case e_admin_menu_1.CategoryChoice.SHOWALLCATEGORY: {
                     this.showAllCategory();
                     break;
                 }
-                case CategoryChoice.CREATECATEGORY: {
+                case e_admin_menu_1.CategoryChoice.CREATECATEGORY: {
                     this.createCategory();
                     break;
                 }
-                case CategoryChoice.UPDATECATEGORY: {
+                case e_admin_menu_1.CategoryChoice.UPDATECATEGORY: {
                     this.updateCategory();
                     break;
                 }
-                case CategoryChoice.REMOVECATEGORY: {
+                case e_admin_menu_1.CategoryChoice.REMOVECATEGORY: {
                     this.removeCategory();
                     break;
                 }
-                case CategoryChoice.SHOWPRODUCTBYCATEGORY: {
+                case e_admin_menu_1.CategoryChoice.SHOWPRODUCTBYCATEGORY: {
                     this.showProductByCategory();
                     break;
                 }

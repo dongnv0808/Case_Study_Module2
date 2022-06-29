@@ -35,7 +35,6 @@ export class Product{
 	public set $price(value: number) {
 		this.price = value;
 	}
-
 	public get $category(): Category | null{
 		return this.category;
 	}

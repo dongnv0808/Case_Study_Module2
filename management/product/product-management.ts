@@ -1,6 +1,7 @@
 import { Product } from "../../module/product";
+import { IProductManagement } from "./i-product-management";
 
-export class ProductManagement implements ProductManagement{
+export class ProductManagement implements IProductManagement{
     private static products: Product[] = [];
     private static id: number = 0;
     

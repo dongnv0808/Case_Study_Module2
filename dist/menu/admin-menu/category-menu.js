@@ -108,14 +108,7 @@ class CategoryMenu {
         let category = this.categoryManagement.findByIdCategory(idCategory);
         if (indexCategory !== -1) {
             if (category !== null) {
-                category.$id = idCategory;
                 category.$nameCategory = rl.question('Nhap ten danh muc:');
-                if (category.$products.length !== 0) {
-                    category.$products = categories[indexCategory].$products;
-                }
-                else {
-                    category.$products = [];
-                }
                 this.categoryManagement.updateById(indexCategory, category);
                 console.log('\nSua danh muc thanh cong!\n');
             }

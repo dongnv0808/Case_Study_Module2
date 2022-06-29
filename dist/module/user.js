@@ -1,10 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.User = void 0;
+const cart_1 = require("./cart");
 class User {
     constructor($user, $password, $email, $name) {
         this.id = 0;
         this.role = 0;
+        this.cart = new cart_1.Cart();
         this.user = $user;
         this.password = $password;
         this.email = $email;
@@ -45,6 +47,40 @@ class User {
     }
     set $name(value) {
         this.name = value;
+    }
+    getAll() {
+        return this.cart;
+    }
+    addToCart(product, amount) {
+        this.cart.$products.push(product);
+        this.cart.$amount = amount;
+    }
+    updateProduct(id, amount) {
+        let indexUpdate = this.findById(id);
+        if (indexUpdate !== -1) {
+            this.cart.$amount = amount;
+        }
+    }
+    removeProduct(id) {
+        let indexRemove = this.findById(id);
+        this.cart.$products.splice(indexRemove, 1);
+    }
+    findById(id) {
+        let index = -1;
+        for (let i = 0; i < this.cart.$products.length; i++) {
+            if (this.cart.$products[i].$id == id) {
+                index = i;
+            }
+        }
+        return index;
+    }
+    findProductById(id) {
+        for (let i = 0; i < this.cart.$products.length; i++) {
+            if (this.cart.$products[i].$id == id) {
+                return this.cart.$products[i];
+            }
+        }
+        return null;
     }
 }
 exports.User = User;

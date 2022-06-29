@@ -1,3 +1,6 @@
+import { Cart } from "./cart";
+import { Product } from "./product";
+
 export class User{
     private id: number = 0;
     private user: string;
@@ -5,6 +8,7 @@ export class User{
     private role: number = 0;
     private email: string;
     private name: string;
+	private cart = new Cart();
 
 	constructor($user: string, $password: string, $email: string, $name: string) {
 		this.user = $user;
@@ -47,5 +51,39 @@ export class User{
 	}
 	public set $name(value: string) {
 		this.name = value;
+	}
+	getAll(){
+		return this.cart;
+	}
+	addToCart(product: Product, amount: number): void{
+		this.cart.$products.push(product);
+		this.cart.$amount = amount;
+	}
+	updateProduct(id: number, amount: number): void{
+		let indexUpdate = this.findById(id);
+		if(indexUpdate !== -1){
+			this.cart.$amount = amount;
+		}
+	}
+	removeProduct(id: number): void{
+		let indexRemove = this.findById(id);
+		this.cart.$products.splice(indexRemove, 1);
+	}
+	findById(id: number): number{
+		let index = -1;
+		for(let i = 0; i< this.cart.$products.length; i++){
+			if(this.cart.$products[i].$id == id){
+				index = i;
+			}
+		}
+		return index;
+	}
+	findProductById(id: number): Product | null{
+		for(let i = 0; i < this.cart.$products.length; i++){
+			if(this.cart.$products[i].$id == id){
+				return this.cart.$products[i];
+			}
+		}
+		return null;
 	}
 }

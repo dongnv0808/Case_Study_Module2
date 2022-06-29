@@ -171,7 +171,7 @@ class LoginMenu {
                 this.adminMenu.run();
             }
             else {
-                this.userMenu.run();
+                this.userMenu.run(currentUser);
             }
         }
     }

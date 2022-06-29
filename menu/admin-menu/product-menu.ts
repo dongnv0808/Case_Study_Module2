@@ -90,9 +90,9 @@ export class ProductMenu{
         let products = this.productMenagement.getAll();
         console.log('--Sua san pham--');
         for(let i = 0; i < products.length; i++){
-            console.log(`Id: ${products[i].$id} | Ten: ${products[i].$nameProduct}\n`)
+            console.log(`Id: ${products[i].$id} | Ten: ${products[i].$nameProduct} | Mo to: ${products[i].$description} | Gia: ${products[i].$price}\n`)
         }
-        let idProduct = +rl.question("Nhap id danh muc muon sua:")
+        let idProduct = +rl.question("Nhap id san pham muon sua:")
         let indexUpdate = this.productMenagement.findById(idProduct);
         if(indexUpdate !== -1){
             let product = this.inputProduct();
@@ -123,29 +123,7 @@ export class ProductMenu{
     }
     
     searchProductByName(){
-        let choice = -1;
-        do{
-            console.log('\n--Tim kiem san pham theo ten--\n');
-            console.log('1. Tim kiem tuyen tinh');
-            console.log('2. Tim kiem nhi phan');
-            console.log('0. Quay lai');
-            choice = +rl.question('Nhap lua chon cua ban:');
-            switch(choice){
-                case 1: {
-                    this.linearSearch();
-                    break;
-                }
-                case 2: {
-
-                    break;
-                }
-                case 0: {
-                    break;
-                }
-            }
-        }while(choice !== 0);
-    }
-    linearSearch(){
+        console.log('\n--Tim kiem san pham theo ten--\n');
         let products = this.productMenagement.getAll();
         let arrLinearSearch = [];
         let nameProduct = rl.question('Nhap ten san pham: ');

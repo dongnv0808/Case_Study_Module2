@@ -134,7 +134,7 @@ export class LoginMenu{
             if(currentUser?.$role == Role.ADMIN){
                 this.adminMenu.run();
             }else{
-                this.userMenu.run();
+                this.userMenu.run(currentUser);
             }
         }
     }

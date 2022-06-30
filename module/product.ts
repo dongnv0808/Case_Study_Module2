@@ -5,13 +5,16 @@ export class Product{
     private nameProduct: string;
     private description: string;
     private price: number;
+	private amount: number = 0;
 	private productSold: number = 0;
 	private category: Category | null = null;
+
 	constructor($nameProduct: string, $description: string, $price: number) {
 		this.nameProduct = $nameProduct;
 		this.description = $description;
 		this.price = $price;
 	}
+
 	public get $id(): number {
 		return this.id;
 	}
@@ -48,4 +51,13 @@ export class Product{
 	public set $productSold(value: number ) {
 		this.productSold = value;
 	}
+
+	public get $amount(): number  {
+		return this.amount;
+	}
+
+	public set $amount(value: number ) {
+		this.amount = value;
+	}
+
 }

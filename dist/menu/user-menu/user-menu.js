@@ -71,7 +71,8 @@ class UserMenu {
                     this.showNumberOfProductByCategory(currentUser);
                     break;
                 }
-                case e_user_menu_1.ChoiceMenuUser.SHOWHOSTSELLINGPRODUCT: {
+                case e_user_menu_1.ChoiceMenuUser.SHOWBESTSELL: {
+                    this.showBestSell();
                     break;
                 }
             }
@@ -278,11 +279,14 @@ class UserMenu {
                     }
                     else {
                         let amount = +rl.question('Nhap so luong muon mua:');
-                        if (currentUser.findById(idProduct) !== -1) {
-                            cart.$amount += amount;
+                        if (currentUser.findByIdProductInCart(idProduct) !== -1) {
+                            product.$amount += amount;
+                            console.log('\nThem thanh cong!\n');
                         }
                         else {
-                            currentUser.addToCart(product, amount);
+                            product.$amount = amount;
+                            currentUser.addToCart(product);
+                            console.log('\nThem thanh cong!\n');
                         }
                     }
                     break;
@@ -346,29 +350,23 @@ class UserMenu {
     }
     showAllProductInCart(currentUser) {
         let cart = currentUser.getAll();
-        let totalPrice = 0;
-        for (let i = 0; i < cart.$products.length; i++) {
-            console.log(`Id: ${cart.$products[i].$id} | Ten: ${cart.$products[i].$nameProduct} | So luong: ${cart.$amount} | Gia: ${cart.$products[i].$price * cart.$amount}`);
-            totalPrice += cart.$products[i].$price * cart.$amount;
+        for (let i = 0; i < cart.length; i++) {
+            console.log(`Id: ${i + 1} | Ten: ${cart[i].$nameProduct} | So luong: ${cart[i].$amount} | Gia: ${cart[i].$price * cart[i].$amount}`);
         }
-        console.log(`\nTong tien: ${totalPrice}\n`);
+        console.log(`\nTong tien: ${currentUser.getTotalPriceInCart()}\n`);
     }
     removeProductFromCart(currentUser) {
         let cart = currentUser.getAll();
+        let cartLength = cart.length;
         console.log('--Xoa san pham trong gio hang--');
         let idProduct = +rl.question('Nhap Id san pham muon xoa:');
-        let isvalidId = true;
-        for (let i = 0; i < cart.$products.length; i++) {
-            if (cart.$products[i].$id == idProduct) {
-                currentUser.removeProduct(idProduct);
-                isvalidId = true;
+        for (let i = 0; i < cart.length; i++) {
+            if (cart[i].$id == idProduct) {
+                currentUser.removeToCart(idProduct);
                 break;
             }
-            else {
-                isvalidId = false;
-            }
         }
-        if (isvalidId == true) {
+        if (cartLength !== cart.length) {
             console.log('\nXoa thanh cong\n');
         }
         else {
@@ -378,11 +376,12 @@ class UserMenu {
     updateAmount(currentUser) {
         let cart = currentUser.getAll();
         console.log('\n--Sua so luong san pham trong gio hang\n');
-        let idProduct = +rl.question('Nhap Id san pham muon sua:');
-        let product = currentUser.findProductById(idProduct);
+        let indexProduct = +rl.question('Nhap Id san pham muon sua:');
+        let product = currentUser.findByIndexProductInCart(indexProduct + 1);
         if (product) {
-            cart.$amount = +rl.question('Nhap so luong muon sua:');
-            currentUser.updateProduct(idProduct, cart.$amount);
+            let amount = +rl.question('Nhap so luong muon sua:');
+            product.$amount = amount;
+            currentUser.updateToCart(indexProduct, product);
             console.log('\nSua thanh cong!\n');
         }
         else {
@@ -401,8 +400,39 @@ class UserMenu {
             phoneNumber = rl.question('Nhap so dien thoai:');
         } while (nameUser == '' || addressUser == '' || phoneNumber == '');
         console.log(`Xin chao ${nameUser}\nDon hang se duoc giao toi dia chi: ${addressUser}\nSo dien thoai: ${phoneNumber}`);
-        for (let i = 0; i < cart.$products.length; i++) {
-            cart.$products[i].$productSold += cart.$amount;
+        for (let i = 0; i < cart.length; i++) {
+            cart[i].$productSold += cart[i].$amount;
+        }
+    }
+    showBestSell() {
+        let products = this.productManagement.getAll();
+        let arrSort = [];
+        if (products.length !== 0) {
+            for (let product of products) {
+                arrSort.push(product);
+            }
+        }
+        if (arrSort.length !== 0) {
+            let needNextPass = true;
+            for (let i = 1; i < arrSort.length && needNextPass; i++) {
+                needNextPass = false;
+                for (let j = arrSort.length - 1; j >= 0; j--) {
+                    if (arrSort[j].$productSold !== undefined && arrSort[j + 1] !== undefined)
+                        if (arrSort[j].$productSold < arrSort[j + 1].$productSold) {
+                            let temp = arrSort[j];
+                            arrSort[j] = arrSort[j + 1];
+                            arrSort[j + 1] = temp;
+                            needNextPass = true;
+                        }
+                }
+                if (needNextPass == false) {
+                    break;
+                }
+            }
+            console.log('\n--San pham ban chay--\n');
+            for (let product of arrSort) {
+                console.log(`Id: ${product.$id} | Ten: ${product.$nameProduct} | Mo ta:${product.$description} | Gia: ${product.$price} | Da ban: ${product.$productSold}`);
+            }
         }
     }
 }

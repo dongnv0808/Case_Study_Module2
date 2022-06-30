@@ -49,38 +49,26 @@ class User {
         this.name = value;
     }
     getAll() {
-        return this.cart;
+        return this.cart.getAllProductInCart();
     }
-    addToCart(product, amount) {
-        this.cart.$products.push(product);
-        this.cart.$amount = amount;
+    addToCart(product) {
+        this.cart.addToCart(product);
     }
-    updateProduct(id, amount) {
-        let indexUpdate = this.findById(id);
-        if (indexUpdate !== -1) {
-            this.cart.$amount = amount;
-        }
+    updateToCart(id, product) {
+        this.cart.updateProductInCart(id, product);
     }
-    removeProduct(id) {
-        let indexRemove = this.findById(id);
-        this.cart.$products.splice(indexRemove, 1);
+    removeToCart(id) {
+        this.cart.removeProductInCart(id);
     }
-    findById(id) {
-        let index = -1;
-        for (let i = 0; i < this.cart.$products.length; i++) {
-            if (this.cart.$products[i].$id == id) {
-                index = i;
-            }
-        }
+    findByIdProductInCart(id) {
+        let index = this.cart.findById(id);
         return index;
     }
-    findProductById(id) {
-        for (let i = 0; i < this.cart.$products.length; i++) {
-            if (this.cart.$products[i].$id == id) {
-                return this.cart.$products[i];
-            }
-        }
-        return null;
+    getTotalPriceInCart() {
+        return this.cart.$totalPrice;
+    }
+    findByIndexProductInCart(index) {
+        return this.cart.$products[index];
     }
 }
 exports.User = User;

@@ -117,8 +117,14 @@ class CategoryMenu {
         }
         console.log('--Xoa danh muc--');
         let idCategory = +rl.question("Nhap id danh muc muon xoa:");
+        let lengthCategorys = categories.length;
         this.categoryManagement.removeById(idCategory);
-        console.log('\nXoa thanh cong!\n');
+        if (categories.length !== lengthCategorys) {
+            console.log('\nXoa thanh cong!\n');
+        }
+        else {
+            console.log('\nXoa that bai!\n');
+        }
     }
     showProductByCategory() {
         var _a;
@@ -145,7 +151,7 @@ class CategoryMenu {
                         if (categories[i].$nameCategory == nameCategory) {
                             for (let j = 0; j < categories[i].$products.length; j++) {
                                 if (categories[i].$products[j].$category !== null) {
-                                    console.log(`Ma: ${categories[i].$products[j].$id}, Ten: ${categories[i].$products[j].$nameProduct}, Mo ta: ${categories[i].$products[j].$id}, Gia: ${categories[i].$products[j].$price}, Loai: ${(_a = categories[i].$products[j].$category) === null || _a === void 0 ? void 0 : _a.$nameCategory}\n`);
+                                    console.log(`Ma: ${categories[i].$products[j].$id}, Ten: ${categories[i].$products[j].$nameProduct}, Mo ta: ${categories[i].$products[j].$id}, Gia: ${categories[i].$products[j].$price}, Danh muc: ${(_a = categories[i].$products[j].$category) === null || _a === void 0 ? void 0 : _a.$nameCategory}\n`);
                                 }
                                 else {
                                     continue;

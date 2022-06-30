@@ -5,7 +5,7 @@ export enum ChoiceMenuUser{
     SORTPRODUCTSBYPRICE = 4,
     CART = 5,
     SHOWNUMBEROFPRODUCTSBYCATEGORY = 6,
-    SHOWHOSTSELLINGPRODUCT = 7
+    SHOWBESTSELL = 7
 }
 
 export enum ChoiceSort{

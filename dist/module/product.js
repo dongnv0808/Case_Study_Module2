@@ -4,6 +4,7 @@ exports.Product = void 0;
 class Product {
     constructor($nameProduct, $description, $price) {
         this.id = 0;
+        this.amount = 0;
         this.productSold = 0;
         this.category = null;
         this.nameProduct = $nameProduct;
@@ -45,6 +46,12 @@ class Product {
     }
     set $productSold(value) {
         this.productSold = value;
+    }
+    get $amount() {
+        return this.amount;
+    }
+    set $amount(value) {
+        this.amount = value;
     }
 }
 exports.Product = Product;

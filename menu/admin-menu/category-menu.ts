@@ -7,6 +7,7 @@ import { CategoryChoice } from '../../module/e-admin-menu';
 
 export class CategoryMenu{
     private categoryManagement: ICategoryManagement = new CategoryManagement();
+
     run(){
         let choice = -1;
         do{
@@ -45,6 +46,7 @@ export class CategoryMenu{
             }
         }while(choice !== 0)
     }
+
     showAllCategory(){
         let categorys = this.categoryManagement.getAll();
         if(categorys.length == 0){
@@ -55,15 +57,18 @@ export class CategoryMenu{
             }
         }
     }
+
     inputCategory(): Category{
         let nameCategory = rl.question("Nhap ten danh muc:");
         return new Category(nameCategory)
     }
+
     createCategory(){
         console.log('--Tao danh muc--');
         let category = this.inputCategory()
         this.categoryManagement.createNew(category);
     }
+
     updateCategory(){
         console.log('--Sua danh muc--');
         let categories = this.categoryManagement.getAll();
@@ -83,6 +88,7 @@ export class CategoryMenu{
             console.log('Nhap sai ma danh muc!');
         }
     }
+    
     removeCategory(){
         let categories = this.categoryManagement.getAll();
         for(let category of categories){
@@ -90,9 +96,15 @@ export class CategoryMenu{
         }
         console.log('--Xoa danh muc--');
         let idCategory = +rl.question("Nhap id danh muc muon xoa:");
+        let lengthCategorys = categories.length;
         this.categoryManagement.removeById(idCategory);
-        console.log('\nXoa thanh cong!\n')
+        if(categories.length !== lengthCategorys){
+            console.log('\nXoa thanh cong!\n');
+        }else{
+            console.log('\nXoa that bai!\n');
+        }
     }
+
     showProductByCategory(){
         let categories = this.categoryManagement.getAll();
         console.log('--Hien thi san pham theo danh muc--');
@@ -114,7 +126,7 @@ export class CategoryMenu{
                         if(categories[i].$nameCategory == nameCategory){
                             for(let j = 0; j < categories[i].$products.length; j++){
                                 if(categories[i].$products[j].$category !== null){
-                                    console.log(`Ma: ${categories[i].$products[j].$id}, Ten: ${categories[i].$products[j].$nameProduct}, Mo ta: ${categories[i].$products[j].$id}, Gia: ${categories[i].$products[j].$price}, Loai: ${categories[i].$products[j].$category?.$nameCategory}\n`)
+                                    console.log(`Ma: ${categories[i].$products[j].$id}, Ten: ${categories[i].$products[j].$nameProduct}, Mo ta: ${categories[i].$products[j].$id}, Gia: ${categories[i].$products[j].$price}, Danh muc: ${categories[i].$products[j].$category?.$nameCategory}\n`)
                                 }else{
                                     continue;
                                 }

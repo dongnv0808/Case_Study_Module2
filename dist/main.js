@@ -1,5 +1,18 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const product_management_1 = require("./management/product/product-management");
 const login_menu_1 = require("./menu/login-menu");
+const product_1 = require("./module/product");
+let product1 = new product_1.Product('Nokia C20', 'Dien thoai', 1990000);
+let product2 = new product_1.Product('Realme C11 (2021) 2GB/32GB', 'Dien thoai', 2690000);
+let product3 = new product_1.Product('Laptop Acer TravelMate B3 TMB311', 'Laptop', 5490000);
+let product4 = new product_1.Product('OPPO Reno7 series', 'Dien thoai', 10490000);
+let product5 = new product_1.Product('Laptop Apple MacBook Air M1 2020', 'Laptop', 28990000);
+let productManagement = new product_management_1.ProductManagement();
+productManagement.createNew(product1);
+productManagement.createNew(product2);
+productManagement.createNew(product3);
+productManagement.createNew(product4);
+productManagement.createNew(product5);
 let loginMenu = new login_menu_1.LoginMenu();
 loginMenu.run();

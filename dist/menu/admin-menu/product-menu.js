@@ -81,11 +81,16 @@ class ProductMenu {
         } while (choice !== 0);
     }
     showAllProduct() {
-        var _a;
-        console.log('--Danh sach san pham--');
+        var _a, _b;
+        console.log('--Danh sach san pham--\n');
         let products = this.productMenagement.getAll();
         for (let i = 0; i < products.length; i++) {
-            console.log(`Ma: ${products[i].$id}, Ten: ${products[i].$nameProduct}, Mo ta: ${products[i].$description}, Gia: ${products[i].$price}, Danh muc: ${(_a = products[i].$category) === null || _a === void 0 ? void 0 : _a.$nameCategory}, Da ban ${products[i].$productSold}\n`);
+            if (((_a = products[i].$category) === null || _a === void 0 ? void 0 : _a.$nameCategory) == undefined) {
+                console.log(`Ma: ${products[i].$id}, Ten: ${products[i].$nameProduct}, Mo ta: ${products[i].$description}, Gia: ${products[i].$price}, Danh muc: Chua co danh muc, Da ban ${products[i].$productSold}\n`);
+            }
+            else {
+                console.log(`Ma: ${products[i].$id}, Ten: ${products[i].$nameProduct}, Mo ta: ${products[i].$description}, Gia: ${products[i].$price}, Danh muc: ${(_b = products[i].$category) === null || _b === void 0 ? void 0 : _b.$nameCategory}, Da ban ${products[i].$productSold}\n`);
+            }
         }
     }
     createNewProduct() {

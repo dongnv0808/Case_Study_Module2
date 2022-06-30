@@ -9,7 +9,7 @@ var ChoiceMenuUser;
     ChoiceMenuUser[ChoiceMenuUser["SORTPRODUCTSBYPRICE"] = 4] = "SORTPRODUCTSBYPRICE";
     ChoiceMenuUser[ChoiceMenuUser["CART"] = 5] = "CART";
     ChoiceMenuUser[ChoiceMenuUser["SHOWNUMBEROFPRODUCTSBYCATEGORY"] = 6] = "SHOWNUMBEROFPRODUCTSBYCATEGORY";
-    ChoiceMenuUser[ChoiceMenuUser["SHOWHOSTSELLINGPRODUCT"] = 7] = "SHOWHOSTSELLINGPRODUCT";
+    ChoiceMenuUser[ChoiceMenuUser["SHOWBESTSELL"] = 7] = "SHOWBESTSELL";
 })(ChoiceMenuUser = exports.ChoiceMenuUser || (exports.ChoiceMenuUser = {}));
 var ChoiceSort;
 (function (ChoiceSort) {

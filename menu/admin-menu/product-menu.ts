@@ -58,10 +58,14 @@ export class ProductMenu{
         }while(choice !== 0)
     }
     showAllProduct(){
-        console.log('--Danh sach san pham--');
+        console.log('--Danh sach san pham--\n');
         let products = this.productMenagement.getAll();
         for(let i = 0; i < products.length; i++){
-            console.log(`Ma: ${products[i].$id}, Ten: ${products[i].$nameProduct}, Mo ta: ${products[i].$description}, Gia: ${products[i].$price}, Danh muc: ${products[i].$category?.$nameCategory}, Da ban ${products[i].$productSold}\n`);
+            if(products[i].$category?.$nameCategory == undefined){
+                console.log(`Ma: ${products[i].$id}, Ten: ${products[i].$nameProduct}, Mo ta: ${products[i].$description}, Gia: ${products[i].$price}, Danh muc: Chua co danh muc, Da ban ${products[i].$productSold}\n`);
+            }else{
+                console.log(`Ma: ${products[i].$id}, Ten: ${products[i].$nameProduct}, Mo ta: ${products[i].$description}, Gia: ${products[i].$price}, Danh muc: ${products[i].$category?.$nameCategory}, Da ban ${products[i].$productSold}\n`);
+            }
         }
     }
     
